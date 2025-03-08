@@ -1,5 +1,6 @@
 using System.Transactions;
 using Dima.Api.Data;
+using Dima.Api.Endpoints;
 using Dima.Api.Handlers;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -36,73 +37,8 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty; 
 });
 
-
-
-app.MapPost(
-    "/v1/categories", async (CreateCategoryRequest request, ICategoryHandler handler) =>await handler.CreateAsync(request))
-    .WithName("Create categories")
-    .WithSummary("Cria uma nova categoria")
-    .Produces<Response<Category?>>(); 
-
-app.MapPut(
-        "/v1/categories{Id}",
-        async (long id,
-            UpdateCategoryRequest request, ICategoryHandler handler) => 
-        {
-            request.Id = id;
-            return await handler.UpdateAsync(request);
-        })
-    .WithName("Update categories")
-    .WithSummary("Atuliza uma categoria")
-    .Produces<Response<Category?>>(); 
-
-app.MapDelete(
-        "/v1/categories{Id}",
-        async (long id,
-             ICategoryHandler handler) =>
-        {
-            var request = new DeleteCategoryRequest
-            {
-                Id = id,
-                UserId = "Test@Lucas"
-            };
-            return await handler.DeleteAsync(request);
-        })
-    .WithName("Delete categories")
-    .WithSummary("Deleta uma categoria")
-    .Produces<Response<Category?>>(); 
-
-app.MapGet(
-        "/v1/categories",
-        async (
-            ICategoryHandler handler) =>
-        {
-            var request = new GetAllCategoriesRequest()
-            {
-                UserId = "Test@Lucas"
-            };
-            return await handler.GetAllAsync(request);
-        })
-    .WithName("Get by all categories")
-    .WithSummary("Retorna todas as  categoria")
-    .Produces<PagedResponse<List<Category>?>>(); 
-
-app.MapGet(
-        "/v1/categories{Id}",
-        async (long id,
-            ICategoryHandler handler) =>
-        {
-            var request = new GetCategoryByIdRequest
-            {
-                Id = id,
-                UserId = "Test@Lucas"
-            };
-            return await handler.GetByIdAsync(request);
-        })
-    .WithName("Get by id categories")
-    .WithSummary("Retorna uma categoria")
-    .Produces<Response<Category?>>(); 
-
+app.MapGet("/" , ()=> new { message = "ok"});
+app.MapAndpoints();
 app.Run();
 
 
