@@ -2,18 +2,25 @@
 
 <MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isdarkmode" Theme="Configuration.Theme"/>
 <MudSnackbarProvider/>
+<MudDialogProvider/>
 
 <AuthorizeView>
     <Authorized>
         <MudLayout>
             <MudAppBar>
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="ToggleDreawer"/>
                 Dima
+                <MudSpacer/>
+                <MudButton Href="/lancamentos/novo" Variant="Variant.Text" StartIcon="@Icons.TwoTone.Add">NOVO LANÇAMENTO</MudButton>
                 <MudSpacer/>
                 <MudText Typo="Typo.caption">
                     @context.User.Identity?.Name
                 </MudText>
-                <MudSwitch @bind-Value="@_isdarkmode"/>
+                <MudSwitch  Color="Color.Inherit" @bind-Value="@_isdarkmode" t="bool" Class="ma-4" ThumbIcon="@Icons.TwoTone.Lightbulb" />
             </MudAppBar>
+            <MudDrawer @bind-Open="@_isDrawerOpened">
+                <NaveMenu />
+            </MudDrawer>
             <MudMainContent>
                 <MudContainer>
                     @Body
@@ -28,6 +35,7 @@
 
 @code
 {
+    private bool _isDrawerOpened = true;
     private bool _isdarkmode = true;
     private MudThemeProvider _mudThemeProvider = null!;
 
@@ -47,5 +55,10 @@
         _isdarkmode = newValue;
         StateHasChanged();
         return Task.CompletedTask;
+    }
+
+    private void ToggleDreawer()
+    {
+        _isDrawerOpened = !_isDrawerOpened;
     }
 }
