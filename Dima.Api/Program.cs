@@ -12,6 +12,7 @@ builder.AddCrossOrigin();
 builder.AddDocumentation();
 builder.AddServices();
 
+
 if (builder.Environment.IsDevelopment()) 
 {
     builder.Configuration.AddUserSecrets<Program>();
