@@ -25,4 +25,16 @@
       <ProjectReference Include="..\Dima.core\Dima.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Components\Reports\ExpensesByCategoryChart.cs">
+        <DependentUpon>ExpensesByCategoryChart.razor</DependentUpon>
+      </Compile>
+      <Compile Update="Components\Reports\IncomesByCategoryChart.cs">
+        <DependentUpon>IncomesByCategoryChart.razor</DependentUpon>
+      </Compile>
+      <Compile Update="Components\Reports\IncomesAndExpensesChart.cs">
+        <DependentUpon>IncomesAndExpensesChart.razor</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
