@@ -5,11 +5,7 @@ public static class AppExtension
     public static void ConfigureDevEnvironment(this WebApplication app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Dima API V1");
-            c.RoutePrefix = string.Empty; 
-        });
+        app.UseSwaggerUI();
         app.MapSwagger().RequireAuthorization();
     }
 

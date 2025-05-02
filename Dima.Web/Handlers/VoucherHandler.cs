@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class VoucherHandler(IHttpClientFactory httpClientFactory) : IVoucherHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<Voucher?>> GetByNumberAsync(GetVoucherByNumberRequest request)
         => await _client.GetFromJsonAsync<Response<Voucher?>>($"v1/vouchers/{request.Number}")

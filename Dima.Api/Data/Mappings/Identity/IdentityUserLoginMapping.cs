@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Dima.Api.Data.Mappings.Identity;
 
 public class IdentityUserLoginMapping
-    : IEntityTypeConfiguration<IdentityUserLogin<long>>
+: IEntityTypeConfiguration<IdentityUserLogin<long>>
 {
     public void Configure(EntityTypeBuilder<IdentityUserLogin<long>> builder)
     {

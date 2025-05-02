@@ -1,4 +1,4 @@
-namespace Dima.Core.Requests.Stripe;
+﻿namespace Dima.Core.Requests.Stripe;
 
 public class GetTransactionByOrderNumberRequest : Request
 {

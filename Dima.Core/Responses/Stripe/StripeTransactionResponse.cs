@@ -1,4 +1,4 @@
-namespace Dima.Core.Responses.Stripe;
+﻿namespace Dima.Core.Responses.Stripe;
 
 public class StripeTransactionResponse
 {

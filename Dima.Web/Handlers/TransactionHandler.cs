@@ -9,7 +9,7 @@ namespace Dima.Web.Handlers;
 
 public class TransactionHandler(IHttpClientFactory httpClientFactory) : ITransactionHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<Transaction?>> CreateAsync(CreateTransactionRequest request)
     {

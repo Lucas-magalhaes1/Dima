@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class ProductHandler(IHttpClientFactory httpClientFactory) : IProductHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<PagedResponse<List<Product>>> GetAllAsync(GetAllProductsRequest request)
         => await _client.GetFromJsonAsync<PagedResponse<List<Product>>>("v1/products")

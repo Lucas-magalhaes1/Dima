@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
     {

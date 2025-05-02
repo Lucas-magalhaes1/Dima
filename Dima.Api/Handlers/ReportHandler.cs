@@ -71,9 +71,8 @@ public class ReportHandler(AppDbContext context) : IReportHandler
 
             return new Response<List<ExpensesByCategory>?>(data);
         }
-        catch (Exception ex)
+        catch
         {
-            Console.WriteLine($"Erro ao obter dados: {ex.Message}");
             return new Response<List<ExpensesByCategory>?>(null, 500,
                 "Não foi possível obter as entradas por categoria");
         }

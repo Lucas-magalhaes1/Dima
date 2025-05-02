@@ -8,21 +8,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) 
-    : IdentityDbContext<
-        User,
+public class AppDbContext(DbContextOptions<AppDbContext> options)
+    : IdentityDbContext<User,
         IdentityRole<long>,
         long,
         IdentityUserClaim<long>,
         IdentityUserRole<long>,
         IdentityUserLogin<long>,
         IdentityRoleClaim<long>,
-        IdentityUserToken<long>
-    >(options)
+        IdentityUserToken<long>>(options)
 {
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Transaction> Transactions { get; set; } = null!;
-    
+    public DbSet<Voucher> Vouchers { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
+
     public DbSet<IncomesAndExpenses> IncomesAndExpenses { get; set; } = null!;
     public DbSet<IncomesByCategory> IncomesByCategories { get; set; } = null!;
     public DbSet<ExpensesByCategory> ExpensesByCategories { get; set; } = null!;
@@ -30,7 +31,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
         modelBuilder.Entity<IncomesAndExpenses>()
             .HasNoKey()
             .ToView("vwGetIncomesAndExpenses");

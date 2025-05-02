@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class ReportHandler(IHttpClientFactory httpClientFactory) : IReportHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<List<IncomesAndExpenses>?>> GetIncomesAndExpensesReportAsync(
         GetIncomesAndExpensesRequest request)

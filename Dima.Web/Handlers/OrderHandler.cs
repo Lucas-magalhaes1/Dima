@@ -1,4 +1,4 @@
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Orders;
@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class OrderHandler(IHttpClientFactory httpClientFactory) : IOrderHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<Order?>> CancelAsync(CancelOrderRequest request)
     {

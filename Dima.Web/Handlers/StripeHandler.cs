@@ -1,4 +1,4 @@
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using Dima.Core.Handlers;
 using Dima.Core.Requests.Stripe;
 using Dima.Core.Responses;
@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class StripeHandler(IHttpClientFactory httpClientFactory) : IStripeHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
 
     public async Task<Response<string?>> CreateSessionAsync(CreateSessionRequest request)
     {

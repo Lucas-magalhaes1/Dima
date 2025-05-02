@@ -20,8 +20,8 @@ public class GetAllProductsEndpoint : IEndpoint
 
     private static async Task<IResult> HandleAsync(
         IProductHandler handler,
-        [FromQuery] int pageNumber = Configuration.PageNumber,
-        [FromQuery] int pageSize = Configuration.PageSize)
+        [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
+        [FromQuery] int pageSize = Configuration.DefaultPageSize)
     {
         var request = new GetAllProductsRequest
         {

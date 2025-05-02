@@ -2,7 +2,7 @@
 
 @if (Data.Count > 0)
 {
-<MudChart
+    <MudChart
         ChartType="ChartType.Pie"
         InputData="@Data.ToArray()"
         InputLabels="@Labels.ToArray()"
@@ -11,7 +11,7 @@
 }
 else
 {
-<div class="d-flex align-center justify-center" style="height: 350px">
-    <MudProgressCircular Indeterminate="true" Color="Color.Primary"/>
-</div>
+    <div class="d-flex align-center justify-center" style="height: 350px">
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary"/>
+    </div>
 }

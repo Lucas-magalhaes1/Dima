@@ -10,18 +10,22 @@ namespace Dima.Api.Endpoints.Categories;
 public class CreateCategoryEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/", HandlerAsync)
-            .WithName("Categories Create")
-            .WithDescription("Criar uma nova categoria.")
-            .WithSummary("Criar uma nova categoria.")
+        => app.MapPost("/", HandleAsync)
+            .WithName("Categories: Create")
+            .WithSummary("Cria uma nova categoria")
+            .WithDescription("Cria uma nova categoria")
             .WithOrder(1)
             .Produces<Response<Category?>>();
-            
-    private static async Task<IResult> HandlerAsync(ClaimsPrincipal user,ICategoryHandler handler, CreateCategoryRequest request)
+
+    private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
+        ICategoryHandler handler,
+        CreateCategoryRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.CreateAsync(request);
-        return result.IsSuccess ? TypedResults.Created($"/{result.Data?.Id}", result) : TypedResults.BadRequest(new { message = result});
+        return result.IsSuccess
+            ? TypedResults.Created($"/{result.Data?.Id}", result)
+            : TypedResults.BadRequest(result.Data);
     }
-    
 }

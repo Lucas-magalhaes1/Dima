@@ -8,7 +8,7 @@ namespace Dima.Web.Handlers;
 
 public class AccountHandler(IHttpClientFactory httpClientFactory) : IAccountHandler
 {
-    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.httpClientName);
+    private readonly HttpClient _client = httpClientFactory.CreateClient(Configuration.HttpClientName);
     
     public async Task<Response<string>> LoginAsync(LoginRequest request)
     {

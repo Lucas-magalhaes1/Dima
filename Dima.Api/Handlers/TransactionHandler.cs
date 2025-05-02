@@ -5,18 +5,18 @@ using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Transactions;
 using Dima.Core.Responses;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Handlers;
 
-public class TransactionHandler (AppDbContext context) : ITransactionHandler
+public class TransactionHandler(AppDbContext context) : ITransactionHandler
 {
-    private ITransactionHandler _transactionHandlerImplementation;
     public async Task<Response<Transaction?>> CreateAsync(CreateTransactionRequest request)
     {
-        if (request is { Type: ETransactionType.Withdraw, Amount: >= 0})
-            request.Amount = request.Amount * -1;
-        
+        if (request is { Type: ETransactionType.Withdraw, Amount: >= 0 }) 
+            request.Amount *= -1;
+
         try
         {
             var transaction = new Transaction
@@ -27,37 +27,40 @@ public class TransactionHandler (AppDbContext context) : ITransactionHandler
                 Amount = request.Amount,
                 PaidOrReceivedAt = request.PaidOrReceivedAt,
                 Title = request.Title,
-                Type = request.Type,
+                Type = request.Type
             };
+
             await context.Transactions.AddAsync(transaction);
             await context.SaveChangesAsync();
-            return new Response<Transaction?>(transaction , 201, "Transação criada com sucesso");
+
+            return new Response<Transaction?>(transaction, 201, "Transação criada com sucesso!");
         }
         catch
         {
-            return new Response<Transaction?>(null, 500, "Não foi possivel criar sua transação");
+            return new Response<Transaction?>(null, 500, "Não foi possível criar sua transação");
         }
     }
 
     public async Task<Response<Transaction?>> UpdateAsync(UpdateTransactionRequest request)
     {
-        if (request is { Type: ETransactionType.Withdraw, Amount: >= 0})
-            request.Amount = request.Amount * -1;
+        if (request is { Type: ETransactionType.Withdraw, Amount: >= 0 }) 
+            request.Amount *= -1;
         
         try
         {
-            var transaction = await context.Transactions.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var transaction = await context
+                .Transactions
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
-            if (transaction == null)
-                return new Response<Transaction?>(null, 404, "Transação Não Encontrada");
-            
-            
+            if (transaction is null)
+                return new Response<Transaction?>(null, 404, "Transação não encontrada");
+
             transaction.CategoryId = request.CategoryId;
             transaction.Amount = request.Amount;
             transaction.Title = request.Title;
             transaction.Type = request.Type;
             transaction.PaidOrReceivedAt = request.PaidOrReceivedAt;
-            
+
             context.Transactions.Update(transaction);
             await context.SaveChangesAsync();
 
@@ -65,7 +68,7 @@ public class TransactionHandler (AppDbContext context) : ITransactionHandler
         }
         catch
         {
-          return  new Response<Transaction?>(null, 500, "Não foi posssivel recuperar sua transação");
+            return new Response<Transaction?>(null, 500, "Não foi possível recuperar sua transação");
         }
     }
 
@@ -73,20 +76,21 @@ public class TransactionHandler (AppDbContext context) : ITransactionHandler
     {
         try
         {
-            var transaction = await context.Transactions.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
+            var transaction = await context
+                .Transactions
+                .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
-            if (transaction == null)
-                return new Response<Transaction?>(null, 404, "Transação Não Encontrada");  
-            
-            
+            if (transaction is null)
+                return new Response<Transaction?>(null, 404, "Transação não encontrada");
+
             context.Transactions.Remove(transaction);
             await context.SaveChangesAsync();
-            
+
             return new Response<Transaction?>(transaction);
         }
         catch
         {
-            return  new Response<Transaction?>(null, 500, "Não foi posssivel recuperar sua transação");
+            return new Response<Transaction?>(null, 500, "Não foi possível recuperar sua transação");
         }
     }
 
@@ -107,7 +111,7 @@ public class TransactionHandler (AppDbContext context) : ITransactionHandler
             return new Response<Transaction?>(null, 500, "Não foi possível recuperar sua transação");
         }
     }
-    
+
     public async Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionsByPeriodRequest request)
     {
         try

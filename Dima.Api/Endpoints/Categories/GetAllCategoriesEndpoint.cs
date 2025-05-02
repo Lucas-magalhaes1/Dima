@@ -12,22 +12,29 @@ namespace Dima.Api.Endpoints.Categories;
 public class GetAllCategoriesEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapGet("/", HandlerAsync)
-            .WithName("Categories Get All")
-            .WithDescription("Pega Todas as categoria.")
-            .WithSummary("Pega Todas as categoria.")
+        => app.MapGet("/", HandleAsync)
+            .WithName("Categories: Get All")
+            .WithSummary("Recupera todas as categorias")
+            .WithDescription("Recupera todas as categorias")
             .WithOrder(5)
             .Produces<PagedResponse<List<Category>?>>();
 
-    private static async Task<IResult> HandlerAsync(ClaimsPrincipal user,ICategoryHandler handler,[FromQuery]int pagenumber = Configuration.PageNumber, [FromQuery]int pagesize = Configuration.PageSize)
+    private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
+        ICategoryHandler handler,
+        [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
+        [FromQuery] int pageSize = Configuration.DefaultPageSize)
     {
-        var request = new GetAllCategoriesRequest()
+        var request = new GetAllCategoriesRequest
         {
             UserId = user.Identity?.Name ?? string.Empty,
-            PageNumber = pagenumber,
-            PageSize = pagesize,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
         };
+
         var result = await handler.GetAllAsync(request);
-        return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(new { message = result});
+        return result.IsSuccess
+            ? TypedResults.Ok(result)
+            : TypedResults.BadRequest(result);
     }
 }

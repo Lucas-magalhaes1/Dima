@@ -1,4 +1,4 @@
-using Dima.Core.Enums;
+﻿using Dima.Core.Enums;
 
 namespace Dima.Core.Models;
 
@@ -24,3 +24,4 @@ public class Order
 
     public decimal Total => Product.Price - (Voucher?.Amount ?? 0);
 }
+

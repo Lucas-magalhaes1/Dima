@@ -1,28 +1,46 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="_isdarkmode" Theme="Configuration.Theme"/>
+<MudThemeProvider
+    @ref="_mudThemeProvider"
+    @bind-IsDarkMode="_isDarkMode"
+    Theme="Configuration.Theme"/>
 <MudSnackbarProvider/>
 <MudDialogProvider/>
+<MudPopoverProvider />
 
 <AuthorizeView>
     <Authorized>
         <MudLayout>
             <MudAppBar>
-                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="ToggleDreawer"/>
+                <MudIconButton
+                    Icon="@Icons.Material.Filled.Menu"
+                    Color="Color.Inherit"
+                    Edge="Edge.Start"
+                    OnClick="ToggleDrawer"/>
                 Dima
                 <MudSpacer/>
-                <MudButton Href="/lancamentos/novo" Variant="Variant.Text" StartIcon="@Icons.TwoTone.Add">NOVO LANÇAMENTO</MudButton>
+                <MudButton Href="/lancamentos/novo" 
+                           Variant="Variant.Text"
+                           Color="Color.Dark"
+                           StartIcon="@Icons.Material.TwoTone.Add">
+                    NOVO LANÇAMENTO
+                </MudButton>
                 <MudSpacer/>
                 <MudText Typo="Typo.caption">
                     @context.User.Identity?.Name
                 </MudText>
-                <MudSwitch  Color="Color.Inherit" @bind-Value="@_isdarkmode" t="bool" Class="ma-4" ThumbIcon="@Icons.TwoTone.Lightbulb" />
+                <MudSwitch
+                    Color="Color.Inherit"
+                    @bind-Value="@_isDarkMode"
+                    T="bool"
+                    Class="ma-4"
+                    ThumbIcon="@Icons.Material.TwoTone.Lightbulb"/>
             </MudAppBar>
             <MudDrawer @bind-Open="@_isDrawerOpened">
-                <NaveMenu />
+                <NavMenu/>
             </MudDrawer>
             <MudMainContent>
-                <MudContainer>
+                <MudContainer Class="mt-4">
                     @Body
                 </MudContainer>
             </MudMainContent>
@@ -33,32 +51,30 @@
     </NotAuthorized>
 </AuthorizeView>
 
-@code
-{
+@code {
+
     private bool _isDrawerOpened = true;
-    private bool _isdarkmode = true;
+    private bool _isDarkMode = true;
     private MudThemeProvider _mudThemeProvider = null!;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _isdarkmode = await _mudThemeProvider.GetSystemPreference();
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
             await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
             StateHasChanged();
-            
         }
     }
 
     private Task OnSystemPreferenceChanged(bool newValue)
     {
-        _isdarkmode = newValue;
+        _isDarkMode = newValue;
         StateHasChanged();
         return Task.CompletedTask;
     }
 
-    private void ToggleDreawer()
-    {
-        _isDrawerOpened = !_isDrawerOpened;
-    }
+    private void ToggleDrawer()
+        => _isDrawerOpened = !_isDrawerOpened;
+
 }

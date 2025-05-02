@@ -10,18 +10,25 @@ namespace Dima.Api.Endpoints.Categories;
 public class UpdateCategoryEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPut("/{id}", HandlerAsync)
-            .WithName("Categories Update")
-            .WithDescription("Atulizar uma categoria.")
-            .WithSummary("Atulizar uma categoria.")
+        => app.MapPut("/{id}", HandleAsync)
+            .WithName("Categories: Update")
+            .WithSummary("Atualiza uma categoria")
+            .WithDescription("Atualiza uma categoria")
             .WithOrder(2)
             .Produces<Response<Category?>>();
 
-    private static async Task<IResult> HandlerAsync(ClaimsPrincipal user,ICategoryHandler handler, UpdateCategoryRequest request, long id)
+    private static async Task<IResult> HandleAsync(
+        ClaimsPrincipal user,
+        ICategoryHandler handler,
+        UpdateCategoryRequest request,
+        long id)
     {
-        request.UserId = user.Identity?.Name ?? string.Empty;;
+        request.UserId = user.Identity?.Name ?? string.Empty;
         request.Id = id;
+        
         var result = await handler.UpdateAsync(request);
-        return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest(new { message = result});
+        return result.IsSuccess
+            ? TypedResults.Ok(result)
+            : TypedResults.BadRequest(result);
     }
 }
